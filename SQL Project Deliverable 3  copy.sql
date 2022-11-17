@@ -1,0 +1,131 @@
+Create DATABASE NFLDATABASEQazi; 
+ 
+CREATE TABLE States (
+StateID int NOT NULL,
+StateName VARCHAR(20) NOT NULL,
+PRIMARY KEY (StateID)
+);
+
+CREATE TABLE City (
+CityID int NOT NULL,
+CityName VARCHAR(20) NOT NULL,
+PRIMARY KEY (CityID)
+);
+ 
+CREATE TABLE Arena (
+ArenaID int NOT NULL,
+Name VARCHAR(20) NOT NULL,
+Address VARCHAR(30) NOT NULL,
+Zip CHAR(5) NOT NULL,
+Capacity VARCHAR(6) NOT NULL,
+PRIMARY KEY (ArenaID),
+FOREIGN KEY (CityID) REFERENCES City(CityID)
+);
+ 
+CREATE TABLE UniformColor (
+ColorID int NOT NULL,
+PRIMARY KEY (ColorID),
+FOREIGN KEY (Team_ColorID) REFERENCES Team_Color(Team_ColorID)
+);
+    
+
+ 
+
+ 
+CREATE TABLE Team_Color (
+Team_ColorID int NOT NULL,
+Color VARCHAR(10) NOT NULL,
+PRIMARY KEY (ArenaID)
+);
+ 
+CREATE TABLE Team (
+TeamID int NOT NULL,
+TeamName VARCHAR (30) NOT NULL,
+TeamLogo VARCHAR(20) NOT NULL,
+TeamMascot VARCHAR(20) NOT NULL,
+TeamLocation VARCHAR (15) NOT NULL,
+PRIMARY KEY (TeamID)
+);
+
+ CREATE TABLE Team_Arena (
+Team_ArenaID int NOT NULL,
+HomeOrAway VARCHAR(4) NOT NULL,
+PRIMARY KEY (Team_ArenaID),
+FOREIGN KEY (TeamID) REFERENCES Team(TeamID),
+FOREIGN KEY (ArenaID) REFERENCES Arena(ArenaID),
+FOREIGN KEY (ColorID) REFERENCES UniformColor(ColorID)
+);
+
+CREATE TABLE Roster (
+RosterID int NOT NULL,
+BeginDate CHAR (8) NOT NULL,
+EndDate CHAR(8) NOT NULL,
+PRIMARY KEY (RosterID),
+FOREIGN KEY (PersonID) REFERENCES Person(PersonID),
+FOREIGN KEY (TeamID) REFERENCES Team(TeamID)
+);
+ 
+CREATE TABLE Person (
+PersonID int NOT NULL,
+PersonFname VARCHAR (10) NOT NULL,
+PersonLname VARCHAR(10) NOT NULL,
+PRIMARY KEY (PersonID)
+);
+ 
+CREATE TABLE Role (
+RoleID int NOT NULL,
+Role VARCHAR (20) NOT NULL,
+PRIMARY KEY (RoleID),
+FOREIGN KEY (PositionID) REFERENCES Position(PositionID)
+);
+ 
+CREATE TABLE Position (
+PositionID int NOT NULL,
+PositionDescription VARCHAR (20) NOT NULL,
+Position VARCHAR (15) NOT NULL,
+PRIMARY KEY (PositionID)
+);
+ 
+CREATE TABLE Stat_Type (
+Stat_TypeID int NOT NULL,
+Stat_type VARCHAR (25) NOT NULL,
+PRIMARY KEY (Stat_TypeID)
+);
+ 
+CREATE TABLE Statistic (
+StatisticID int NOT NULL,
+StatDescription VARCHAR (20) NOT NULL,
+Stats VARCHAR (25) NOT NULL,
+PRIMARY KEY (StatisticID),
+FOREIGN KEY (Stat_TypeID) REFERENCES Stat_Type(Stat_TypeID)
+);
+ 
+CREATE TABLE Gender (
+GenderID int NOT NULL,
+Gender VARCHAR(6) NOT NULL,
+PRIMARY KEY (GenderID)
+);
+ 
+CREATE TABLE Roster_GameStat (
+Roster_GameStatID int NOT NULL,
+
+PRIMARY KEY (Roster_GameStatID),
+FOREIGN KEY (GameID) REFERENCES Game(GameID),
+FOREIGN KEY (RosterID) REFERENCES Roster(RosterID),
+FOREIGN KEY (StatisticID) REFERENCES Statistic(StatisticID)
+);
+ 
+CREATE TABLE Game (
+GameID int NOT NULL,
+ATHomeOrAway VARCHAR(4) NOT NULL,
+GameNumber CHAR (2),
+PRIMARY KEY (GameID),
+FOREIGN KEY (Game_TypeID) REFERENCES Game_Type(GameTypeID)
+);
+ 
+CREATE TABLE Game_Type (
+Game_TypeID int NOT NULL,
+GameType VARCHAR(15) NOT NULL,
+PRIMARY KEY (Game_typeID), 
+FOREIGN Key (Team_ArenaID) REFERENCES Team_Arena(Team_ArenaID)
+);
